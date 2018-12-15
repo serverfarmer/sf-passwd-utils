@@ -90,6 +90,7 @@ if [ "$existing" = "" ]; then
 	fi
 
 else  # user already exists, enforce given shell and warn if UID or home directory are different
+	echo "user $user already exists"
 
 	exuid=`echo $existing |cut -d: -f3`
 	if [ "$exuid" != "$uid" ]; then

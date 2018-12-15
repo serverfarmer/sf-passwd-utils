@@ -32,7 +32,7 @@ if ! [[ "$keytext" =~ ^[a-zA-Z0-9/@\ .:_-]+$ ]]; then
 	exit 0
 fi
 
-home=`getent passwd $user |cut -d: -f 6`
+home=`getent passwd $user |cut -d: -f6`
 
 if [ ! -f $home/.ssh/authorized_keys ] || ! grep -q "$keytext" $home/.ssh/authorized_keys; then
 	mkdir -p $home/.ssh
