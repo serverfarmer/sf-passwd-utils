@@ -28,7 +28,7 @@ else
 	exit 0
 fi
 
-if ! [[ "$keytext" =~ ^ssh-[a-zA-Z0-9/@\ .:+_-]+$ ]]; then
+if ! [[ "$keytext" =~ ^ssh-[a-zA-Z0-9/@\ .:+=_-]+$ ]]; then
 	echo "error: given key \"$keytext\" is incomplete or invalid"
 	exit 0
 fi
