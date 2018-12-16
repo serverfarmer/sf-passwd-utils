@@ -7,13 +7,14 @@ if [ "$1" = "" ]; then
 elif ! [[ $1 =~ ^[a-zA-Z0-9._-]+$ ]]; then
 	echo "error: parameter 1 not conforming user name format"
 	exit 1
-elif [ "`getent passwd $1`" = "" ]; then
-	echo "error: user $1 not found"
-	exit 1
 fi
 
 user=$1
 shift
+
+if [ "`getent passwd $user`" = "" ]; then
+	exit 0
+fi
 
 for group in $@; do
 	if [ "`getent group $group`" = "" ]; then

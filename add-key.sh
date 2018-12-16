@@ -7,9 +7,6 @@ if [ "$3" = "" ]; then
 elif ! [[ $1 =~ ^[a-zA-Z0-9._-]+$ ]]; then
 	echo "error: parameter 1 not conforming user name format"
 	exit 1
-elif [ "`getent passwd $1`" = "" ]; then
-	echo "error: user $1 not found"
-	exit 1
 elif [ "$2" != "file" ] && [ "$2" != "inline" ]; then
 	echo "error: invalid mode (should be either \"file\" or \"inline\")"
 	exit 1
@@ -17,6 +14,10 @@ fi
 
 user=$1
 mode=$2
+
+if [ "`getent passwd $user`" = "" ]; then
+	exit 0
+fi
 
 if [ "$mode" != "file" ]; then
 	keytext="$3"
@@ -27,7 +28,7 @@ else
 	exit 0
 fi
 
-if ! [[ "$keytext" =~ ^[a-zA-Z0-9/@\ .:+_-]+$ ]]; then
+if ! [[ "$keytext" =~ ^ssh-[a-zA-Z0-9/@\ .:+_-]+$ ]]; then
 	echo "error: given key \"$keytext\" is incomplete or invalid"
 	exit 0
 fi
