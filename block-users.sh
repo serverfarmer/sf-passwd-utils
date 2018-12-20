@@ -21,7 +21,7 @@ for user in $@; do
 		if [ "$existing" != "" ]; then
 
 			password=`getent shadow $user |cut -d: -f2`
-			if [[ ${password:0:1} != "-" ]] && [[ ${password:0:1} != "*" ]]; then
+			if [[ ${password:0:1} != "!" ]] && [[ ${password:0:1} != "*" ]]; then
 				echo "locking password for user $user"
 				passwd -l $user
 			fi
