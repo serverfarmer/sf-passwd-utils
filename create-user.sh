@@ -25,6 +25,7 @@ userid=$3
 home=$4
 homedir="/home/$user"
 shell=/bin/bash
+warnuid=""
 
 # uid:
 #  3000  - use uid=3000
@@ -37,6 +38,7 @@ elif [ "$userid" = "" ]; then
 	uid=`get_free_uid 1000 65530`
 else
 	uid=$userid
+	warnuid=$userid
 fi
 
 # home directory:
@@ -90,10 +92,9 @@ if [ "$existing" = "" ]; then
 	fi
 
 else  # user already exists, enforce given shell and warn if UID or home directory are different
-	echo "user $user already exists"
 
 	exuid=`echo $existing |cut -d: -f3`
-	if [ "$exuid" != "$uid" ]; then
+	if [ "$exuid" != "$uid" ] && [ "$warnuid" != "" ]; then
 		echo "warning: $user has UID=$exuid (different than specified $uid)"
 	fi
 
@@ -103,7 +104,7 @@ else  # user already exists, enforce given shell and warn if UID or home directo
 	fi
 
 	exshell=`echo $existing |cut -d: -f7`
-	if [ "$exshell" != "$shell" ]; then
+	if [ "$exshell" != "$shell" ] && [ "$exshell" != "/usr/bin/rssh" ]; then
 		echo "changing login shell for user $user from $exshell to $shell"
 
 		if [ "$OSTYPE" = "freebsd" ]; then

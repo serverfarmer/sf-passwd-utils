@@ -17,10 +17,10 @@ if [ "`getent passwd $user`" = "" ]; then
 fi
 
 for group in $@; do
-	if [ "`getent group $group`" = "" ]; then
-		echo "warning: group $group not found, skipping"
-	elif ! [[ $group =~ ^[a-zA-Z0-9._-]+$ ]]; then
+	if ! [[ $group =~ ^[a-zA-Z0-9._-]+$ ]]; then
 		echo "warning: given group name not conforming group name format, skipping"
+	elif [ "`getent group $group`" = "" ]; then
+		:
 	elif [ "$OSTYPE" = "freebsd" ]; then
 		pw usermod $user -aG $group
 	elif [ "$OSTYPE" != "qnap" ]; then
