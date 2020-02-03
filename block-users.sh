@@ -1,8 +1,7 @@
 #!/bin/bash
 . /etc/farmconfig
-. /opt/farm/scripts/functions.custom
 
-admin=`primary_admin_account`
+admin=`/opt/farm/config/get-primary-admin-account.sh`
 
 if [ "$1" = "" ]; then
 	echo "usage: $0 <user-name> [user-name] [...]"
