@@ -36,6 +36,12 @@ fi
 home=`getent passwd $user |cut -d: -f6`
 
 if [ ! -f $home/.ssh/authorized_keys ] || ! grep -q "$keytext" $home/.ssh/authorized_keys; then
+	comment="`echo "$keytext" |cut -d' ' -f3-`"
+	if [ "$comment" != "" ]; then
+		echo "installing ssh key $comment for user $user"
+	else
+		echo "installing ssh key ${keytext: -12} for user $user"
+	fi
 	mkdir -p $home/.ssh
 	echo "$keytext" >>$home/.ssh/authorized_keys
 fi

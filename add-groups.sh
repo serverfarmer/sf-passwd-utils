@@ -22,8 +22,10 @@ for group in $@; do
 	elif [ "`getent group $group`" = "" ]; then
 		:
 	elif [ "$OSTYPE" = "freebsd" ]; then
+		echo "adding user $user to group $group"
 		pw usermod $user -aG $group
 	elif [ "$OSTYPE" != "qnap" ]; then
+		echo "adding user $user to group $group"
 		usermod -aG $group $user
 	fi
 done
