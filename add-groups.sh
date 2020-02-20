@@ -21,6 +21,8 @@ for group in $@; do
 		echo "warning: given group name not conforming group name format, skipping"
 	elif [ "`getent group $group`" = "" ]; then
 		:
+	elif [ "`groups $user |cut -d: -f2 |tr ' ' '\n' |grep -xF $group`" != "" ]; then
+		:
 	elif [ "$OSTYPE" = "freebsd" ]; then
 		echo "adding user $user to group $group"
 		pw usermod $user -aG $group
